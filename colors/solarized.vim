@@ -987,7 +987,10 @@ hi! link pandocMetadataTitle             pandocMetadata
 " mode (detected with the script scope s:vmode variable). It also allows for 
 " other potential terminal customizations that might make gui mode suboptimal.
 "
-autocmd GUIEnter * if (s:vmode != "gui") | exe "colorscheme " . g:colors_name | endif
+augroup SolarizedGuiEnter
+    autocmd!
+    autocmd GUIEnter * if (s:vmode != "gui") | exe "colorscheme " . g:colors_name | endif
+augroup END
 "}}}
 " Highlight Trailing Space {{{
 " Experimental: Different highlight when on cursorline
@@ -1002,8 +1005,8 @@ endfunction
 augroup SolarizedHiTrail
     autocmd!
     if g:solarized_hitrail==1
-        autocmd! Syntax * call s:SolarizedHiTrail()
-        autocmd! ColorScheme * if g:colors_name == "solarized" | call s:SolarizedHiTrail() | else | augroup! s:SolarizedHiTrail | endif
+        autocmd Syntax * call s:SolarizedHiTrail()
+        autocmd ColorScheme * if g:colors_name == "solarized" | call s:SolarizedHiTrail() | else | augroup! s:SolarizedHiTrail | endif
     endif
 augroup END
 " }}}
@@ -1087,7 +1090,10 @@ function! SolarizedMenu()
     endif
 endfunction
 
-autocmd ColorScheme * if g:colors_name != "solarized" | silent! aunmenu Solarized | else | call SolarizedMenu() | endif
+augroup SolarizedColorScheme
+    autocmd!
+    autocmd ColorScheme * if g:colors_name != "solarized" | silent! aunmenu Solarized | else | call SolarizedMenu() | endif
+augroup END
 
 "}}}
 " License "{{{
